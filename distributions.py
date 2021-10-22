@@ -1,4 +1,4 @@
-from Data_Managment import *
+from dataManagment import *
 
 XAndProbabilityOfX = [
     [1000000, 1/2000000], 

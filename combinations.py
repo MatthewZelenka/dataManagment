@@ -1,4 +1,4 @@
-from Data_Managment import *
+from dataManagment import *
 
 universalSet = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 setA = [1, 2, 3]

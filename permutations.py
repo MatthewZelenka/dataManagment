@@ -1,4 +1,4 @@
-from Data_Managment import *
+from dataManagment import *
 
 fact = 1
 print(f"Factorial of {fact}:", factorial(fact))

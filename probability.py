@@ -1,4 +1,4 @@
-from Data_Managment import *
+from dataManagment import *
 
 odd = "6:5" #odd is formated like "1:1"
 print(f"Probability of odd ({odd}):", oddToProbability(odd))
