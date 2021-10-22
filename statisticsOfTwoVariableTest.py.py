@@ -10,8 +10,11 @@ Values =[
     (3,18)
 ]
 
-print("Correlation coefficient:", correlation_coefficient(Values))
-print("Linear Regression:", linear_regression(Values))
-print("Quadratic Regression:", quadratic_regression(Values))
-# print("Cubic Regression:", cubic_regression(Values))
-print(regression(Values, termCount=4, scientificNotation=False))
+regresionPowerList = {
+    1, 2, 3
+}
+
+for maxPower in regresionPowerList:
+    answerKey = regression(Values, maxPower=maxPower)
+    print("Regression for power of %d: %s" % (maxPower, equationMaker(answerKey, scientificNotation=False)))
+    print("R%s value is: %s" % ("^2" if maxPower > 1 else "", coefficientOfDetermination(Values, answerKey, r2=True if maxPower > 1 else False)))

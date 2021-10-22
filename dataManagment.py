@@ -190,20 +190,6 @@ class standerd_deviation():
         return math.sqrt(variance.population(num_list))
 
 #Statistics of Two Variables unit
-def nSUMxy(num_list):
-    return len(num_list)*sum([i[0]*i[1] for i in num_list])
-
-def SUMx(num_list):
-    return sum([i[0] for i in num_list])
-
-def SUMy(num_list):
-    return sum([i[1] for i in num_list])
-
-def nSUMx2(num_list):
-    return len(num_list)*sum([i[0]**2 for i in num_list])
-
-def nSUMy2(num_list):
-    return len(num_list)*sum([i[1]**2 for i in num_list])
 
 def matrix_multiplier(array0, array1):
     return np.matmul(array0, array1)
@@ -211,12 +197,12 @@ def matrix_multiplier(array0, array1):
 def inverse_matrix(array):
     return np.linalg.inv(array)
 
-def regression(numList, termCount=2):
-    if termCount < 2:
-        return ("Error term count must be greater then 2")
-    termCount = round(termCount)
-    array0 = [[sum([i[0]**((termCount-1-term)+(termCount-1-level)) for i in numList]) for term in range(termCount)] for level in range(termCount)]
-    array1 = [[sum([(j[0]**(termCount-1-term))*(j[1]) for j in numList])] for term in range(termCount)]
+def regression(numList, maxPower=1):
+    if maxPower < 1:
+        return ("Error term count must be greater then 1")
+    maxPower = round(maxPower)
+    array0 = [[sum([i[0]**((maxPower-term)+(maxPower-level)) for i in numList]) for term in range(maxPower+1)] for level in range(maxPower+1)]
+    array1 = [[sum([(j[0]**(maxPower-term))*(j[1]) for j in numList])] for term in range(maxPower+1)]
     answerKey = matrix_multiplier(inverse_matrix(array0), array1)
     return answerKey
     
@@ -228,64 +214,12 @@ def coefficientOfDetermination(numList, answerKey, r2=True):
 def equationMaker(answerKey, scientificNotation=False):
     equation = "y="
     for i in range(len(answerKey)):
-        equation = "%s%s%s"%(equation, "" if i==0 or 0 > answerKey[i] else "+" ,(str(answerKey[i][0]) if scientificNotation == False else "({:e})".format(answerKey[i][0]))) + ("x" if i != len(answerKey)-1 else "") + ("^%d"%(len(answerKey)-1-i) if i < len(answerKey)-2 else "")
+        equation = "%s%s%s"%(
+            equation, 
+            "" if i==0 or 0 > answerKey[i] else "+" ,
+            (str(answerKey[i][0]) if scientificNotation == False else "({:e})".format(answerKey[i][0]))) + ("x" if i != len(answerKey)-1 else "") + ("^%d"%(len(answerKey)-1-i) if i < len(answerKey)-2 else ""
+        )
     return equation
-
-#May remove later regresions as newer more versitile fuction is being developed
-
-def correlation_coefficient(num_list, classify=False):
-    CC = (nSUMxy(num_list)-SUMx(num_list)*SUMy(num_list))/math.sqrt((nSUMx2(num_list)-SUMx(num_list)**2)*(nSUMy2(num_list)-SUMy(num_list)**2))
-    if classify == True:
-        return 0 #-1 perfect, strong negitive,-2/3 modererately strong, moderately negitive, -1/3 weak negitive, 0 zero, 1/3 weak positive, 2/3 strong postive, 1 perfect    
-    return(CC)
-
-def linear_regression(num_list, var=False, R2=False):
-    a = (nSUMxy(num_list)-(SUMx(num_list)*SUMy(num_list)))/(nSUMx2(num_list)-SUMx(num_list)**2)
-    b = (sum([i[1] for i in num_list])/len([i[1] for i in num_list]))-(mean([i[0] for i in num_list])*a)
-    r2 = 1-(sum(([(i[1]-a*i[0]-b)**2 for i in num_list])))/sum(([(i[1]-mean([i[1] for i in num_list]))**2 for i in num_list]))
-    lr = ("y=%fx+%f" % (a, b),"R^2=%f" % (r2))       
-    return lr
-
-def quadratic_regression(num_list, var=False, R2=False):
-    array0 = [
-        [sum([i[0]**4 for i in num_list]), sum([i[0]**3 for i in num_list]), sum([i[0]**2 for i in num_list])],
-        [sum([i[0]**3 for i in num_list]), sum([i[0]**2 for i in num_list]), sum([i[0] for i in num_list])],
-        [sum([i[0]**2 for i in num_list]), sum([i[0] for i in num_list]), len([i[0] for i in num_list])]
-    ]
-    array1 = [
-        [sum([(i[0]**2)*(i[1]) for i in num_list])],
-        [sum([(i[0])*(i[1]) for i in num_list])],
-        [sum([(i[1]) for i in num_list])]
-    ]
-    abc = matrix_multiplier(inverse_matrix(array0), array1)
-    a = abc[0]
-    b = abc[1]
-    c = abc[2]
-    r2 = 1-(sum(([(i[1]-a*i[0]**2-b*i[0]-c)**2 for i in num_list])))/sum(([(i[1]-sum([i[1] for i in num_list])/len([i[1] for i in num_list]))**2 for i in num_list]))
-    qr = ("y=%fx^2+%fx+%f" % (a, b, c),"R^2=%f" % (r2))            
-    return qr
-
-def cubic_regression(num_list, var=False, R2=False):
-    array0 = [
-        [sum([i[0]**6 for i in num_list]), sum([i[0]**5 for i in num_list]), sum([i[0]**4 for i in num_list]), sum([i[0]**3 for i in num_list])],
-        [sum([i[0]**5 for i in num_list]), sum([i[0]**4 for i in num_list]), sum([i[0]**3 for i in num_list]), sum([i[0]**2 for i in num_list])],
-        [sum([i[0]**4 for i in num_list]), sum([i[0]**3 for i in num_list]), sum([i[0]**2 for i in num_list]), sum([i[0] for i in num_list])],
-        [sum([i[0]**3 for i in num_list]), sum([i[0]**2 for i in num_list]), sum([i[0] for i in num_list]), len([i[0] for i in num_list])]
-    ]
-    array1 = [
-        [sum([(i[0]**3)*(i[1]) for i in num_list])],
-        [sum([(i[0]**2)*(i[1]) for i in num_list])],
-        [sum([(i[0])*(i[1]) for i in num_list])],
-        [sum([(i[1]) for i in num_list])]
-    ]
-    abcd = matrix_multiplier(inverse_matrix(array0), array1)
-    a = abcd[0]
-    b = abcd[1]
-    c = abcd[2]
-    d = abcd[3]
-    r2 = 1-(sum(([(i[1]-a*i[0]**3-b*i[0]**2-c*i[0]-d)**2 for i in num_list])))/sum(([(i[1]-sum([i[1] for i in num_list])/len([i[1] for i in num_list]))**2 for i in num_list]))
-    qr = ("y=%fx^3+%fx^2+%fx+%f" % (a, b, c, d),"R^2=%f" % (r2))            
-    return qr
 
 #Probability
 def oddToProbability(odd = str):
