@@ -1,5 +1,6 @@
 import math
 import numpy as np
+import functools as ft
 
 #Permutations unit
 def factorial(num = int):
@@ -223,11 +224,19 @@ def equationMaker(answerKey, scientificNotation=False):
 
 #Probability
 def oddToProbability(odd = str):
-    nums = odd.split(":")
-    return float(nums[0])/(float(nums[0])+float(nums[1]))
+    nums = [float(i) for i in odd.split(':')]
+    return nums[0]/(nums[0]+nums[1])
+
+def float_gcd(a, b, rtol = 1e-05, atol = 1e-08):
+    t = min(abs(a), abs(b))
+    while abs(b) > rtol * t + atol:
+        a, b = b, a % b
+    return a
 
 def probabilityToOdd(probability = int):
-    return f"{probability}:{1-probability}"
+    nums = [probability,1-probability]
+    denominater = float_gcd(nums[0], nums[1])
+    return f"{nums[0]/denominater}:{nums[1]/denominater}"
 
 #Distributions
 def probabilityDistributionExpectedValue(ValuesAndPX = [[1,1]]):
