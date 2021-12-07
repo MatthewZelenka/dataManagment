@@ -22,11 +22,12 @@ print("Variance(sample):", variance.sample(Values))
 print("Standard deviation(population):", standerd_deviation.population(Values))
 print("Variance(population):", variance.population(Values),"\n")
 print("Stem and leaf:", stem_leaf(Values),"\n")
-start_value = 0; intervel_length=10; include="(]"
-print("Starting value: %d\nIntervel length: %d\nInclued: %s\n" %(start_value, intervel_length, include))
-print("Organize:", organize(Values, start=start_value, intervel_length=intervel_length, include=include),"\n") #from data_analysis
-print("Frequency:", frequency(Values, start=start_value, intervel_length=intervel_length, include=include),"\n")
-print("Cumulative Frequency:", cumulative_frequency(Values, start=start_value, intervel_length=intervel_length, include=include),"\n")
-print("Relative Frequency:", relative_frequency(Values, start=start_value, intervel_length=intervel_length, include=include),"\n")
-
+def tableOrginization():
+    start_value = 0; intervel_length=10; include="(]"
+    print("Starting value: %d\nIntervel length: %d\nInclued: %s\n" %(start_value, intervel_length, include))
+    print("Organize:", organize(Values, start=start_value, intervel_length=intervel_length, include=include),"\n") #from data_analysis
+    print("Frequency:", frequency(Values, start=start_value, intervel_length=intervel_length, include=include),"\n")
+    print("Cumulative Frequency:", cumulative_frequency(Values, start=start_value, intervel_length=intervel_length, include=include),"\n")
+    print("Relative Frequency:", relative_frequency(Values, start=start_value, intervel_length=intervel_length, include=include),"\n")
+tableOrginization()
 print("Compleation time:",datetime.now() - startTime)
