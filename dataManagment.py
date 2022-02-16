@@ -1,3 +1,4 @@
+from logging import exception
 import math
 import numpy as np
 import functools as ft
@@ -198,9 +199,9 @@ def matrix_multiplier(array0, array1):
 def inverse_matrix(array):
     return np.linalg.inv(array)
 
-def regression(numList, maxPower=1):
-    if maxPower < 1:
-        return ("Error term count must be greater then 1")
+def regression(numList:list[int], maxPower:int=1):
+    if maxPower < 0:
+        ValueError("Error term count must be greater then 0")
     maxPower = round(maxPower)
     array0 = [[sum([i[0]**((maxPower-term)+(maxPower-level)) for i in numList]) for term in range(maxPower+1)] for level in range(maxPower+1)]
     array1 = [[sum([(j[0]**(maxPower-term))*(j[1]) for j in numList])] for term in range(maxPower+1)]

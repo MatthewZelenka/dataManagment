@@ -11,7 +11,7 @@ Values =[
 ]
 
 regresionPowerList = {
-    1, 2, 3
+    0, 1, 2, 3
 }
 
 for maxPower in regresionPowerList:
