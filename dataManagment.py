@@ -1,7 +1,5 @@
-from logging import exception
 import math
 import numpy as np
-import functools as ft
 
 #Permutations unit
 def factorial(num = int):
